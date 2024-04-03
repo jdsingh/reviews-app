@@ -7,7 +7,7 @@ function App() {
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/reviews')
+        fetch('http://0.0.0.0:8080/api/reviews')
             .then(response => response.json())
             .then(data => setReviews(data));
     }, []);
