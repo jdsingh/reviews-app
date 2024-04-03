@@ -20,14 +20,14 @@ import kotlin.test.assertEquals
 class ApplicationTest {
 
     @Test
-    fun testRoot() = testApplication {
+    fun testHello() = testApplication {
         environment {
             config = ApplicationConfig("application-custom.conf")
         }
         application {
             main()
         }
-        client.get("/").apply {
+        client.get("/hello").apply {
             assertEquals(HttpStatusCode.OK, status)
             assertEquals("Hello World!", bodyAsText())
         }
@@ -51,7 +51,7 @@ class ApplicationTest {
             configureReviewsHandler(reviewService)
         }
 
-        client.get("/reviews").apply {
+        client.get("/api/reviews").apply {
             assertEquals(HttpStatusCode.OK, status)
             assertEquals("[\n]", bodyAsText())
         }
@@ -78,7 +78,7 @@ class ApplicationTest {
             runBlocking { reviewRepository.fetchAndSaveReviews() }
         }
 
-        client.get("/reviews").apply {
+        client.get("/api/reviews").apply {
             assertEquals(HttpStatusCode.OK, status)
             val reviews = bodyAsText().let {
                 Json.decodeFromString<List<Review>>(it)

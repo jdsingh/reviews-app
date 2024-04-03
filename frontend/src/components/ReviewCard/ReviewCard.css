@@ -4,8 +4,9 @@
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 20px 0;
+    margin-bottom: 20px;
     background-color: #f9f9f9;
+    width: 50%;
 }
 
 .review-card h2 {

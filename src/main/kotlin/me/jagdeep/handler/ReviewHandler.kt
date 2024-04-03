@@ -7,7 +7,7 @@ import me.jagdeep.service.ReviewService
 
 fun Application.configureReviewsHandler(service: ReviewService) {
     routing {
-        get("/reviews") {
+        get("/api/reviews") {
             val reviews = service.getReviewsForLast48Hours()
             call.respond(reviews)
         }
