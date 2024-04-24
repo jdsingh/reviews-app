@@ -21,7 +21,7 @@ class ReviewServiceTest {
         reviewRepository.fetchAndSaveReviews()
 
         // When
-        val reviews = reviewService.getReviewsForLast48Hours()
+        val reviews = reviewService.getReviewsForHours()
 
         // Then
         assertEquals(2, reviews.size)
@@ -34,7 +34,7 @@ class ReviewServiceTest {
         // No reviews saved
 
         // When
-        val reviews = reviewService.getReviewsForLast48Hours()
+        val reviews = reviewService.getReviewsForHours()
 
         // Then
         assertEquals(0, reviews.size)

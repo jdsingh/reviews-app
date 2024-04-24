@@ -9,7 +9,7 @@ import me.jagdeep.domain.AppReviews
 import me.jagdeep.domain.Review
 
 interface ReviewsApi {
-    suspend fun fetchReviews(): Result<AppReviews>
+    suspend fun fetchReviews(page: Int): Result<AppReviews>
 }
 
 /**
@@ -17,9 +17,9 @@ interface ReviewsApi {
  */
 class ReviewsApiImpl(private val apiClient: HttpClient) : ReviewsApi {
 
-    override suspend fun fetchReviews(): Result<AppReviews> = runCatching {
+    override suspend fun fetchReviews(page: Int): Result<AppReviews> = runCatching {
         val response = apiClient.get {
-            url("${BASE_URL}/id=${APP_ID}/sortBy=${SORT_BY}/page=1/json")
+            url("${BASE_URL}/id=${APP_ID}/sortBy=${SORT_BY}/page=${page}/json")
         }
 
         val body = response.body<String>()

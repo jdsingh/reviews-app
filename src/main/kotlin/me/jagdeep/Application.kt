@@ -45,7 +45,7 @@ fun Application.scheduleReviewsPollingJob(reviewRepository: ReviewRepository) {
         // or use a cron job in a production environment
         launch(coroutineContext) {
             while (isActive) {
-                reviewRepository.fetchAndSaveReviews()
+                reviewRepository.fetchAllReview()
                 delay(REVIEWS_POLLING_INTERVAL)
             }
         }

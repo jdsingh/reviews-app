@@ -10,10 +10,10 @@ import kotlin.time.Duration.Companion.hours
  */
 class ReviewService(private val reviewRepository: ReviewRepository) {
 
-    suspend fun getReviewsForLast48Hours(): List<Review> {
+    suspend fun getReviewsForHours(hours: Int): List<Review> {
         val reviews = reviewRepository.getSavedReviews()?.reviews ?: emptyList()
         val now = Clock.System.now()
-        val last48Hours = now.minus(48.hours)
+        val last48Hours = now.minus(hours.hours)
         return reviews.filter { it.datetime > last48Hours }
     }
 }

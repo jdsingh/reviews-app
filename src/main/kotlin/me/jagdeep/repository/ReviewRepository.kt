@@ -1,8 +1,10 @@
 package me.jagdeep.repository
 
 import io.ktor.util.logging.*
+import kotlinx.datetime.Clock
 import me.jagdeep.database.ReviewDatabase
 import me.jagdeep.domain.AppReviews
+import me.jagdeep.domain.Review
 
 /**
  * Repository for reviews.
@@ -21,12 +23,32 @@ class ReviewRepository(
     }
 
     suspend fun fetchAndSaveReviews() {
-        return reviewApi.fetchReviews()
+        return reviewApi.fetchReviews(1)
             .fold(onSuccess = { appReviews ->
                 reviewDatabase.saveReviews(appReviews)
                 logger.info("Fetched and saved ${appReviews.reviews.size} reviews")
             }, onFailure = { exception ->
                 logger.error("Failed to fetch reviews", exception)
             })
+    }
+
+    suspend fun fetchAllReview() {
+        val reviews = mutableListOf<Review>()
+        for (page in 1..10) {
+            reviewApi.fetchReviews(page)
+                .fold(onSuccess = { appReviews ->
+                    reviews.addAll(appReviews.reviews)
+                    logger.info("Fetched and saved ${appReviews.reviews.size} reviews")
+                }, onFailure = { exception ->
+                    logger.error("Failed to fetch reviews", exception)
+                })
+        }
+
+        reviewDatabase.saveReviews(
+            AppReviews(
+                updatedAt = Clock.System.now(),
+                reviews = reviews
+            )
+        )
     }
 }
